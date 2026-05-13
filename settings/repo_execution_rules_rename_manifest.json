@@ -1,0 +1,382 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-02-26T21:21:26Z",
+  "policy": {
+    "rename_boundary": "active tracked code+docs only",
+    "naming_direction": "PascalCase-heavy",
+    "exclusions": [
+      "Scripts/Legacy/",
+      "docs/archive/",
+      "Results/",
+      "Data/",
+      "Artifacts/",
+      "Research Papers/"
+    ]
+  },
+  "entries": [
+    {
+      "old_path": "Markdowns/deep-research-report-2026-02-11.md",
+      "new_path": "Markdowns/Deep_Research_Report_2026_02_11.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "Markdowns/deep-research-report.md",
+      "new_path": "Markdowns/Deep_Research_Report.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "Markdowns/notion-agent-tracking-fallback.md",
+      "new_path": "Markdowns/Notion_Agent_Tracking_Fallback.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "Markdowns/notion-agent-tracking-status.md",
+      "new_path": "Markdowns/Notion_Agent_Tracking_Status.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/00_readme.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/00_Readme.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/01_vorticity_streamfunction_core.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/01_Vorticity_Streamfunction_Core.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/02_fd_arakawa_rk4.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/02_FD_Arakawa_Rk4.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/03_spectral_fft_pseudospectral_poisson.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/03_Spectral_FFT_Pseudospectral_Poisson.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/04_fv_layered_formulation.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/04_FV_Layered_Formulation.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/04_FV_Layered_Formulation.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/04_FV_Conservative_ThreeD_Formulation.md",
+      "status": "applied",
+      "reason": "Rename FV supplement to reflect the active conservative 3D runtime",
+      "notes": "Applied during the 2026-03-18 Finite Volume conservative 3D redesign and LaTeX derivation refresh."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/05_bc_ic_dispatcher_contract.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/05_BC_IC_Dispatcher_Contract.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/06_validation_protocols.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/06_Validation_Protocols.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/03_NOTEBOOKS/supplements/07_book_reference_map.md",
+      "new_path": "docs/03_NOTEBOOKS/supplements/07_Book_Reference_Map.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/implementation/2026-02-11_repo_hardening_baseline.md",
+      "new_path": "docs/implementation/2026_02_11_Repo_Hardening_Baseline.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/implementation/2026-02-11_repo_hardening_execution_plan.md",
+      "new_path": "docs/implementation/2026_02_11_Repo_Hardening_Execution_Plan.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/implementation/2026-02-12_backend_frontend_popup_feasibility.md",
+      "new_path": "docs/implementation/2026_02_12_Backend_Frontend_Popup_Feasibility.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/implementation/2026-02-12_notion_task_execution_playbook.md",
+      "new_path": "docs/implementation/2026_02_12_Notion_Task_Execution_Playbook.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/implementation/2026-02-12_ui_capability_decision_matrix.md",
+      "new_path": "docs/implementation/2026_02_12_UI_Capability_Decision_Matrix.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/research.md",
+      "new_path": "docs/Research.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "docs/research_log.md",
+      "new_path": "docs/Research_Log.md",
+      "status": "applied",
+      "reason": "RDOC001 docs filename normalization to Title_Case with underscores",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7A (docs/Markdown batch)."
+    },
+    {
+      "old_path": "tests/Run_All_Tests.m",
+      "new_path": "tests/RunAllTests.m",
+      "status": "applied",
+      "reason": "RTEST001 test runner normalization to PascalCase Run*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_architecture_compliance.m",
+      "new_path": "tests/TestArchitectureCompliance.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_bc_dispatcher_contract.m",
+      "new_path": "tests/TestBCDispatcherContract.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_deprecation_registry_integrity.m",
+      "new_path": "tests/TestDeprecationRegistryIntegrity.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_end_to_end.m",
+      "new_path": "tests/TestEndToEnd.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_fd_stencil_implementation.m",
+      "new_path": "tests/TestFDStencilImplementation.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_fd_wall_bc_formulas.m",
+      "new_path": "tests/TestFDWallBCFormulas.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_filter_graphics_objects.m",
+      "new_path": "tests/TestFilterGraphicsObjects.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_gpu_arakawa_toggle.m",
+      "new_path": "tests/TestGPUArakawaToggle.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_latex_standardization.m",
+      "new_path": "tests/TestLatexStandardization.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_method_bc_capability_gates.m",
+      "new_path": "tests/TestMethodBCCapabilityGates.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_method_dispatcher.m",
+      "new_path": "tests/TestMethodDispatcher.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_mode_evolution_progress_callback.m",
+      "new_path": "tests/TestModeEvolutionProgressCallback.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_parallel_implementation.m",
+      "new_path": "tests/TestParallelImplementation.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_paths_reports_media_sustainability.m",
+      "new_path": "tests/TestPathsReportsMediaSustainability.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_spectral_fv_dispatcher_smoke.m",
+      "new_path": "tests/TestSpectralFVDispatcherSmoke.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_static_analysis_syntax.m",
+      "new_path": "tests/TestStaticAnalysisSyntax.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_ui_user_flow.m",
+      "new_path": "tests/TestUIUserFlow.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/test_video_controls_implementation.m",
+      "new_path": "tests/TestVideoControlsImplementation.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/TEST_UIController.m",
+      "new_path": "tests/ui/TestUIController.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from TEST_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_fd_evolution_ui_traditional_parity.m",
+      "new_path": "tests/ui/TestFDEvolutionUITraditionalParity.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ic_schema_contract.m",
+      "new_path": "tests/ui/TestICSchemaContract.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_dialog_latex_symbols.m",
+      "new_path": "tests/ui/TestUIDialogLatexSymbols.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_layout_sandbox.m",
+      "new_path": "tests/ui/TestUILayoutSandbox.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_monitor_contracts.m",
+      "new_path": "tests/ui/TestUIMonitorContracts.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_terminal_parameter_summary.m",
+      "new_path": "tests/ui/TestUITerminalParameterSummary.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_terminal_reset_on_launch.m",
+      "new_path": "tests/ui/TestUITerminalResetOnLaunch.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_time_physics_video_triplet.m",
+      "new_path": "tests/ui/TestUITimePhysicsVideoTriplet.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/ui/test_ui_warning_regressions.m",
+      "new_path": "tests/ui/TestUIWarningRegressions.m",
+      "status": "applied",
+      "reason": "RTEST001 test filename normalization from test_* to PascalCase Test*",
+      "notes": "Review for references/symbol coupling before execution. Applied in Phase 0A Step 7B (tests batch)."
+    },
+    {
+      "old_path": "tests/COMPREHENSIVE_TEST_SUITE.m",
+      "new_path": "tests/RunComprehensiveTestSuite.m",
+      "status": "applied",
+      "reason": "RTEST001 test runner normalization to PascalCase Run*",
+      "notes": "Applied in Phase 0A/0 Step 7B residual test-runner cleanup."
+    },
+    {
+      "old_path": "tests/debug_filter_test.m",
+      "new_path": "tests/RunDebugFilterTest.m",
+      "status": "applied",
+      "reason": "RTEST001 test script normalization to PascalCase Run*",
+      "notes": "Applied in Phase 0A/0 Step 7B residual test-runner cleanup."
+    },
+    {
+      "old_path": "tests/verify_refactored_architecture.m",
+      "new_path": "tests/RunVerifyRefactoredArchitecture.m",
+      "status": "applied",
+      "reason": "RTEST001 verification runner normalization to PascalCase Run*",
+      "notes": "Applied in Phase 0A/0 Step 7B residual test-runner cleanup."
+    }
+  ]
+}

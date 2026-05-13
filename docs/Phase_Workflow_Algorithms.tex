@@ -1,0 +1,210 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+
+\section*{Workflow Pseudocode for Mesh Convergence, Phase 1, and Phase 2}
+
+\paragraph{Shared diagnostics.}
+\begin{align}
+u &= -\frac{\partial \psi}{\partial y},
+&
+v &= \frac{\partial \psi}{\partial x},
+\\
+E(t) &= \frac{1}{2}\int_{\Omega}\left(u^2 + v^2\right)\,dA,
+&
+Z(t) &= \frac{1}{2}\int_{\Omega}\omega^2\,dA,
+\\
+\Gamma(t) &= \int_{\Omega}\omega\,dA,
+&
+h &= \max(\Delta x,\Delta y).
+\end{align}
+
+\subsection*{Mesh-convergence workflow}
+
+The dedicated mesh-convergence workflow runs two periodic sweeps, one for FD and one for the spectral method, then promotes the selected levels into a combined comparison stage. The Phase 1 local mesh sweep stores the convergence metrics in percent:
+\begin{align}
+\omega_{2h \rightarrow h} &= I_{2h \rightarrow h}\!\left[\omega_{2h}\right],
+\\
+\xi_{L_2}^{(\ell)} &= 100\,
+\frac{\left\|\omega_h^{(\ell)} - \omega_{2h \rightarrow h}^{(\ell-1)}\right\|_2}
+{\left\|\omega_h^{(\ell)}\right\|_2},
+\\
+\xi_{\mathrm{peak}}^{(\ell)} &= 100\,
+\frac{\left|\left\|\omega_h^{(\ell)}\right\|_{\infty} -
+\left\|\omega_{2h \rightarrow h}^{(\ell-1)}\right\|_{\infty}\right|}
+{\left\|\omega_h^{(\ell)}\right\|_{\infty}},
+\\
+p_{\mathrm{obs}}^{(\ell)} &=
+\frac{\log\!\left(\xi_{L_2}^{(\ell-1)} / \xi_{L_2}^{(\ell)}\right)}
+{\log\!\left(h_{\ell-1}/h_{\ell}\right)}.
+\end{align}
+The timestep diagnostics recorded by the workflow follow
+\begin{align}
+\Delta t_{\mathrm{adv}} &= C_{\mathrm{adv}}\,
+\frac{\delta}{\max |u+v|},
+&
+\Delta t_{\mathrm{diff}} &= C_{\mathrm{diff}}\,
+\frac{\delta^2}{2\nu},
+\\
+\Delta t_{\mathrm{used}} &=
+\begin{cases}
+\Delta t_{\mathrm{config}}, & \text{for fixed-step runs},\\
+\min\!\left(\Delta t_{\mathrm{adv}}, \Delta t_{\mathrm{diff}}, T_f - t^n\right),
+& \text{for adaptive runs}.
+\end{cases}
+\end{align}
+
+\begin{algorithm}[t]
+\caption{Dedicated periodic mesh-convergence workflow}
+\begin{algorithmic}[1]
+\Require mesh ladder $\mathcal{N} = \{N_1,\dots,N_L\}$, tolerance $\tau_{\xi}$, methods $\{\mathrm{FD},\mathrm{Spectral}\}$
+\ForAll{method $m \in \{\mathrm{FD},\mathrm{Spectral}\}$}
+    \For{$\ell = 1$ to $L$}
+        \State set $N_x = N_y = N_{\ell}$ and launch a periodic evolution run
+        \State extract $\omega^{(\ell)}$, $\psi^{(\ell)}$, $E^{(\ell)}$, $Z^{(\ell)}$, $\Gamma^{(\ell)}$, $h_{\ell}$
+        \State evaluate $\Delta t_{\mathrm{adv}}^{(\ell)}$, $\Delta t_{\mathrm{diff}}^{(\ell)}$, and CFL diagnostics
+        \If{$\ell = 1$}
+            \State mark the level as the baseline reference
+        \Else
+            \State interpolate $\omega^{(\ell-1)}$ onto the level-$\ell$ grid
+            \State compute $\xi_{L_2}^{(\ell)}$, $\xi_{\mathrm{peak}}^{(\ell)}$, and $p_{\mathrm{obs}}^{(\ell)}$
+        \EndIf
+    \EndFor
+    \State choose the first level satisfying $\xi_{L_2}^{(\ell)} < \tau_{\xi}$ and $\xi_{\mathrm{peak}}^{(\ell)} < \tau_{\xi}$
+    \If{no level satisfies both thresholds}
+        \State fall back to the finest mesh unless the sweep is unstable
+    \EndIf
+\EndFor
+\State promote the selected FD and Spectral levels into workflow outputs
+\State compute cross-method error-vs-time curves on the selected meshes
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{Phase 1 periodic FD-vs-Spectral workflow}
+
+The current active Phase 1 runtime is a direct periodic comparison plus optional IC-study jobs. It uses either the configured direct grids or previously converged mesh seeds, then aligns FD and spectral snapshots over a common time window. If the initial condition is Taylor-Green, the configured timestep is conservatively capped by the same advective/diffusive limits above before the run starts.
+
+Let SM denote the spectral method. The cross-method remap and mismatch quantities are
+\begin{align}
+\omega^{\mathrm{SM}\rightarrow \mathrm{FD}}(t_k) &=
+I_{\mathrm{SM}\rightarrow \mathrm{FD}}\!\left[\omega^{\mathrm{SM}}(t_k)\right],
+\\
+\omega^{\mathrm{FD}\rightarrow \mathrm{SM}}(t_k) &=
+I_{\mathrm{FD}\rightarrow \mathrm{SM}}\!\left[\omega^{\mathrm{FD}}(t_k)\right],
+\\
+\mathrm{RMSE}_{\mathrm{FD}}(t_k) &=
+\sqrt{\frac{1}{M_{\mathrm{FD}}}
+\sum_{i=1}^{M_{\mathrm{FD}}}
+\left(\omega_i^{\mathrm{FD}}(t_k) -
+\omega_i^{\mathrm{SM}\rightarrow \mathrm{FD}}(t_k)\right)^2},
+\\
+\varepsilon_{\omega,L_2}(t_k) &=
+\frac{1}{2}\left[
+\frac{\left\|\omega^{\mathrm{FD}}(t_k) -
+\omega^{\mathrm{SM}\rightarrow \mathrm{FD}}(t_k)\right\|_2}
+{\left\|\omega^{\mathrm{SM}\rightarrow \mathrm{FD}}(t_k)\right\|_2}
++
+\frac{\left\|\omega^{\mathrm{SM}}(t_k) -
+\omega^{\mathrm{FD}\rightarrow \mathrm{SM}}(t_k)\right\|_2}
+{\left\|\omega^{\mathrm{FD}\rightarrow \mathrm{SM}}(t_k)\right\|_2}
+\right].
+\end{align}
+For scalar histories such as peak vorticity, circulation, kinetic energy, and enstrophy, the workflow uses the symmetric relative difference
+\begin{align}
+\delta_q(t_k) =
+\frac{\left|q^{\mathrm{FD}}(t_k) - q^{\mathrm{SM}}(t_k)\right|}
+{\max\!\left(\left|q^{\mathrm{FD}}(t_k)\right|,
+\left|q^{\mathrm{SM}}(t_k)\right|, 10^{-12}\right)},
+\qquad
+q \in \left\{\|\omega\|_{\infty}, \Gamma, E, Z\right\}.
+\end{align}
+
+\begin{algorithm}[t]
+\caption{Phase 1 periodic FD-vs-Spectral workflow}
+\begin{algorithmic}[1]
+\Require periodic boundary conditions, flat bathymetry, baseline IC, direct FD and Spectral grids
+\If{converged-mesh seeding is enabled}
+    \State load the latest compatible converged meshes and overwrite the direct grids
+\Else
+    \State use the configured direct Phase 1 FD and Spectral grids
+\EndIf
+\State build the queue with direct FD evolution and direct Spectral evolution
+\State append paired FD/Spectral IC-study jobs for each configured study case
+\ForAll{queued jobs}
+    \State apply the runtime IC overrides and snapshot schedule
+    \If{the IC is Taylor-Green}
+        \State cap $\Delta t \leftarrow \min(\Delta t,\Delta t_{\mathrm{adv}},\Delta t_{\mathrm{diff}})$
+    \EndIf
+    \State run the evolution job and store $\omega(t)$, $\psi(t)$, $u(t)$, $v(t)$, $E(t)$, $Z(t)$, and $\Gamma(t)$
+\EndFor
+\State align FD and Spectral snapshots over the overlap time window
+\State remap Spectral data onto the FD grid and FD data onto the Spectral grid
+\State compute RMSE, relative $L_2$, relative $L_{\infty}$, streamfunction, and speed mismatches
+\State compute velocity-vector and streamline-direction mismatches
+\State compute scalar relative errors for $\|\omega\|_{\infty}$, $\Gamma$, $E$, and $Z$
+\State publish the comparison plots, workbook, manifest, and Phase 1 report
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{Phase 2 boundary-condition workflow}
+
+The current active Phase 2 runtime is FD-only. It expands the workflow across three editable wall-bounded scenarios, the configured IC cases, and the configured velocity scales. For a base scenario with wall speeds $U_{\alpha}^{(0)}$ and a scale factor $s$,
+\begin{align}
+U_{\alpha} = s\,U_{\alpha}^{(0)},
+\qquad
+\alpha \in \{\mathrm{top},\mathrm{bottom},\mathrm{left},\mathrm{right}\}.
+\end{align}
+For Taylor-Green ICs, the timestep is additionally capped by
+\begin{align}
+\delta &= \max\!\left(\frac{L_x}{N_x}, \frac{L_y}{N_y}\right),
+\\
+\Delta t_{\mathrm{adv}} &= C_{\mathrm{adv}}\frac{\delta}{G},
+&
+\Delta t_{\mathrm{diff}} &= C_{\mathrm{diff}}\frac{\delta^2}{2\nu},
+\\
+\Delta t &\leftarrow
+\min\!\left(\Delta t,\Delta t_{\mathrm{adv}},\Delta t_{\mathrm{diff}}\right),
+\end{align}
+where $G$ is the Taylor-Green strength extracted from the active IC coefficients. The workflow also reports vortex-shape diagnostics:
+\begin{align}
+x_c &= \frac{\int_{\Omega} x\,|\omega|\,dA}{\int_{\Omega} |\omega|\,dA},
+&
+y_c &= \frac{\int_{\Omega} y\,|\omega|\,dA}{\int_{\Omega} |\omega|\,dA},
+\\
+d_c &= \sqrt{\left(x_c(T)-x_c(0)\right)^2 + \left(y_c(T)-y_c(0)\right)^2},
+\\
+\sigma_x^2 &= \frac{\int_{\Omega} (x-x_c)^2 |\omega|\,dA}{\int_{\Omega} |\omega|\,dA},
+&
+\sigma_y^2 &= \frac{\int_{\Omega} (y-y_c)^2 |\omega|\,dA}{\int_{\Omega} |\omega|\,dA},
+\\
+a_c &= \frac{\sigma_x}{\max(\sigma_y,\varepsilon)}.
+\end{align}
+
+\begin{algorithm}[t]
+\caption{Phase 2 boundary-condition workflow}
+\begin{algorithmic}[1]
+\Require FD mesh $N$, base scenarios $\mathcal{B}$, IC cases $\mathcal{I}$, velocity scales $\mathcal{S}$
+\ForAll{IC case $i \in \mathcal{I}$}
+    \State load the calibrated runtime overrides for $i$
+    \ForAll{base scenario $b \in \mathcal{B}$}
+        \ForAll{velocity scale $s \in \mathcal{S}$}
+            \State set the wall speeds $U_{\alpha} = s\,U_{\alpha}^{(0)}$
+            \State build an FD-only evolution job with the corresponding boundary-condition case
+            \State enforce $\nu \leftarrow \max(\nu,\nu_{\min})$ and $\Delta t \leftarrow \min(\Delta t,\Delta t_{\max})$
+            \If{$i$ is Taylor-Green}
+                \State additionally cap $\Delta t$ with the advective and diffusive Taylor-Green limits
+            \EndIf
+            \State run the job and store final $E$, $Z$, $\|\omega\|_{\infty}$, $\Gamma$, and peak CFLs
+            \State compute centroid drift $d_c$ and final core anisotropy $a_c$
+        \EndFor
+    \EndFor
+\EndFor
+\State aggregate the scenario tables, workbook sheets, manifest, and combined workflow media
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}

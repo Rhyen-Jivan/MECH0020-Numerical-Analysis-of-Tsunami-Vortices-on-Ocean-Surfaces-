@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Repo Execution Rules Rename Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "rename_boundary",
+        "naming_direction"
+      ],
+      "properties": {
+        "rename_boundary": {
+          "type": "string"
+        },
+        "naming_direction": {
+          "type": "string"
+        },
+        "exclusions": {
+          "type": "array"
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "old_path",
+          "new_path",
+          "status"
+        ],
+        "properties": {
+          "old_path": {
+            "type": "string"
+          },
+          "new_path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
+

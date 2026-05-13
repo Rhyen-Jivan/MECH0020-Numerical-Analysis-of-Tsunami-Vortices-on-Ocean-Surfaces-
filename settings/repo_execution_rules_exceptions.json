@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "generated_by": "Phase0A",
+  "description": "Authoritative exception registry for RepoExecutionRulesCheck. Inline temporary exceptions are invalid unless registered here.",
+  "exceptions": []
+}
+
