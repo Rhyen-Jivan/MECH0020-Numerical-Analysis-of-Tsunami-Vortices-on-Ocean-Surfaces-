@@ -12609,6 +12609,9 @@ classdef UIController < handle
             end
 
             defaults = app.initialize_default_config();
+            if isfield(defaults, 'mesh_convergence') && isstruct(defaults.mesh_convergence)
+                config_export.mesh_convergence = app.collect_mesh_convergence_settings_from_ui(defaults);
+            end
             config_export.sweep_parameter = defaults.sweep_parameter;
             config_export.sweep_values = defaults.sweep_values;
             if isfield(defaults, 'experimentation') && isstruct(defaults.experimentation)
@@ -13025,6 +13028,10 @@ classdef UIController < handle
                 if any(strcmp(requested_ui_mode, {'manual', 'agent', 'advanced'}))
                     app.handles.conv_mode_selected = requested_ui_mode;
                 end
+            end
+            if isfield(cfg, 'mesh_convergence') && isstruct(cfg.mesh_convergence)
+                app.apply_mesh_convergence_settings_to_ui(cfg.mesh_convergence);
+                app.config.mesh_convergence = cfg.mesh_convergence;
             end
 
             if isfield(cfg, 'sweep_parameter')
@@ -16090,8 +16097,8 @@ classdef UIController < handle
                 labels{end + 1} = app.phase1_publication_case_display_label( ... %#ok<AGROW>
                     app.pick_field(cases(i), {'case_id'}, sprintf('case_%02d', i)), ...
                     app.pick_field(cases(i), {'display_label', 'label'}, sprintf('Case %d', i)));
-                fd_case_metrics = app.pick_field(app.pick_field(cases(i), {'fd'}, struct()), {'metrics'}, struct());
-                sp_case_metrics = app.pick_field(app.pick_field(cases(i), {'spectral'}, struct()), {'metrics'}, struct());
+                fd_case_metrics = resolve_phase1_ic_case_metrics(cases(i), 'fd');
+                sp_case_metrics = resolve_phase1_ic_case_metrics(cases(i), 'spectral');
                 data(end + 1, :) = [ ... %#ok<AGROW>
                     double(app.pick_field(fd_case_metrics, {metric_field}, NaN)), ...
                     double(app.pick_field(sp_case_metrics, {metric_field}, NaN))];
@@ -25874,6 +25881,15 @@ classdef UIController < handle
             app.handles.phase1_mesh_start_ny.Layout.Row = 4;
             app.handles.phase1_mesh_start_ny.Layout.Column = 3;
 
+            lbl = uilabel(grid, 'Text', 'Default dt', 'FontColor', colors.fg_text);
+            lbl.Layout.Row = 4;
+            lbl.Layout.Column = 1;
+            app.handles.phase1_mesh_default_dt = uieditfield(grid, 'numeric', ...
+                'Value', double(app.pick_field_required(mesh_defaults, {'default_dt', 'fd_dt', 'spectral_dt'}, 0.01)), ...
+                'Limits', [eps Inf]);
+            app.handles.phase1_mesh_default_dt.Layout.Row = 4;
+            app.handles.phase1_mesh_default_dt.Layout.Column = 2;
+
             app.handles.phase1_mesh_final_equal_xy = uicheckbox(grid, ...
                 'Text', 'Equal x/y', ...
                 'Value', logical(app.pick_field_required(mesh_defaults, {'mesh_final_equal_xy'}, true)), ...
@@ -27100,6 +27116,12 @@ classdef UIController < handle
             mesh_cfg.mesh_ladder_mode = app.safe_text_value('phase1_mesh_ladder_mode', app.pick_field(mesh_cfg, {'mesh_ladder_mode'}, 'bounded'));
             mesh_cfg.mesh_powers_of_two_max_n = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_powers_of_two_max_n'}, 1024))));
             mesh_cfg.convergence_tolerance = max(eps, double(app.safe_numeric_value('phase1_convergence_tolerance', app.pick_field(mesh_cfg, {'convergence_tolerance'}, 1.0))));
+            mesh_cfg.default_dt = max(eps, double(app.safe_numeric_value('phase1_mesh_default_dt', ...
+                app.pick_field(mesh_cfg, {'default_dt', 'fd_dt', 'spectral_dt'}, 0.01))));
+            mesh_cfg.fd_dt = mesh_cfg.default_dt;
+            mesh_cfg.spectral_dt = mesh_cfg.default_dt;
+            mesh_cfg.taylor_green_fd_dt = mesh_cfg.default_dt;
+            mesh_cfg.taylor_green_spectral_dt = mesh_cfg.default_dt;
             mesh_cfg.ic_preset_id = app.safe_text_value('phase1_mesh_ic_preset', app.pick_field(mesh_cfg, {'ic_preset_id'}, 'elliptical_vortex'));
             mesh_cfg.ic_snapshot = app.build_mesh_convergence_ic_snapshot(mesh_cfg.ic_preset_id);
             [fd_levels, spectral_levels, ladder_meta] = app.build_phase1_mesh_levels_from_ui(mesh_cfg);
@@ -27107,6 +27129,66 @@ classdef UIController < handle
             mesh_cfg.mesh_powers_of_two_max_n = double(ladder_meta.powers_of_two_max_n);
             mesh_cfg.convergence_mesh_levels_fd = fd_levels;
             mesh_cfg.convergence_mesh_levels_spectral = spectral_levels;
+        end
+
+        function apply_mesh_convergence_settings_to_ui(app, mesh_cfg)
+            if nargin < 2 || ~isstruct(mesh_cfg) || isempty(fieldnames(mesh_cfg))
+                return;
+            end
+
+            if app.has_valid_handle('phase1_mesh_ic_preset')
+                requested_ic = char(string(app.pick_field(mesh_cfg, {'ic_preset_id'}, app.handles.phase1_mesh_ic_preset.Value)));
+                if any(strcmpi(requested_ic, cellstr(string(app.handles.phase1_mesh_ic_preset.ItemsData))))
+                    app.handles.phase1_mesh_ic_preset.Value = requested_ic;
+                end
+            end
+            if app.has_valid_handle('phase1_mesh_start_equal_xy')
+                app.handles.phase1_mesh_start_equal_xy.Value = logical(app.pick_field(mesh_cfg, {'mesh_start_equal_xy'}, true));
+            end
+            if app.has_valid_handle('phase1_mesh_start_n')
+                app.handles.phase1_mesh_start_n.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_start_n'}, 32))));
+            end
+            if app.has_valid_handle('phase1_mesh_start_nx')
+                app.handles.phase1_mesh_start_nx.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_start_nx'}, 32))));
+            end
+            if app.has_valid_handle('phase1_mesh_start_ny')
+                app.handles.phase1_mesh_start_ny.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_start_ny'}, 32))));
+            end
+            if app.has_valid_handle('phase1_mesh_default_dt')
+                app.handles.phase1_mesh_default_dt.Value = max(eps, double(app.pick_field(mesh_cfg, ...
+                    {'default_dt', 'fd_dt', 'spectral_dt'}, 0.01)));
+            end
+            if app.has_valid_handle('phase1_mesh_final_equal_xy')
+                app.handles.phase1_mesh_final_equal_xy.Value = logical(app.pick_field(mesh_cfg, {'mesh_final_equal_xy'}, true));
+            end
+            if app.has_valid_handle('phase1_mesh_final_n')
+                app.handles.phase1_mesh_final_n.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_final_n'}, 768))));
+            end
+            if app.has_valid_handle('phase1_mesh_final_nx')
+                app.handles.phase1_mesh_final_nx.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_final_nx'}, 768))));
+            end
+            if app.has_valid_handle('phase1_mesh_final_ny')
+                app.handles.phase1_mesh_final_ny.Value = max(8, round(double(app.pick_field(mesh_cfg, {'mesh_final_ny'}, 768))));
+            end
+            if app.has_valid_handle('phase1_mesh_level_count')
+                app.handles.phase1_mesh_level_count.Value = max(2, round(double(app.pick_field(mesh_cfg, {'mesh_level_count'}, 8))));
+            end
+            if app.has_valid_handle('phase1_convergence_tolerance')
+                app.handles.phase1_convergence_tolerance.Value = max(eps, double(app.pick_field(mesh_cfg, {'convergence_tolerance'}, 1.0)));
+            end
+            if app.has_valid_handle('phase1_mesh_ladder_mode')
+                requested_mode = char(string(app.pick_field(mesh_cfg, {'mesh_ladder_mode'}, 'bounded')));
+                if any(strcmpi(requested_mode, cellstr(string(app.handles.phase1_mesh_ladder_mode.ItemsData))))
+                    app.handles.phase1_mesh_ladder_mode.Value = requested_mode;
+                end
+            end
+            if app.has_valid_handle('phase1_use_converged_mesh_seed')
+                app.handles.phase1_use_converged_mesh_seed.Value = logical(app.pick_field(mesh_cfg, {'use_converged_mesh_seed'}, false));
+            end
+
+            app.on_phase1_equal_mesh_changed('start');
+            app.on_phase1_equal_mesh_changed('final');
+            app.on_phase1_mesh_ladder_mode_changed();
         end
 
         function phase1 = collect_phase1_settings_from_ui(app, defaults)
