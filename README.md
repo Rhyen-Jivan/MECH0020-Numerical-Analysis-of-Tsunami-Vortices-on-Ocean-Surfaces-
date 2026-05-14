@@ -127,20 +127,16 @@ Repo Root
 |   |-- UI
 |   |-- Legacy
 |   `-- Research
-|-- tests
+|-- Results
 |-- settings
 |-- utilities
 |-- docs
-|-- Results
-`-- Artifacts
 ```
 
 ### Top-level areas
 
 - `Scripts/`
   - active backend code, launchers, methods, workflows, UI, and archived legacy code
-- `tests/`
-  - MATLAB harnesses, contracts, smoke checks, and UI acceptance helpers
 - `settings/`
   - repo rule settings and execution-policy support files
 - `utilities/`
