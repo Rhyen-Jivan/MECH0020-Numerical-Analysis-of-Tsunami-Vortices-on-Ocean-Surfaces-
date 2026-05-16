@@ -514,3 +514,7 @@ The framework currently supports:
 - Local MATLAB path pollution can create noisy warnings if stale paths outside this repo remain configured.
 - GPU use depends on the planner/runtime contract and host availability; unsupported requests are expected to fall back safely.
 - `Results/` and most of `Artifacts/` are ignored output areas, so committed documentation must use `docs/assets/` rather than live run paths.
+- Mesh Convergence can take roughly 4 hours
+- Phase 1 can take up to 6 hours roughly
+- Phase 2 can take upto 8 hours roughly
+- Each run of these phases will require at least 10GBs of storage to store the simulation data
